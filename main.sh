@@ -729,24 +729,19 @@ gotop_latest="$(curl -s https://api.github.com/repos/xxxserxxx/gotop/releases | 
 function ins_Fail2ban(){
 clear
 print_install "Menginstall Fail2ban"
-apt update -y >/dev/null 2>&1 || true
-apt install -y wget curl >/dev/null 2>&1 || true
 #apt -y install fail2ban > /dev/null 2>&1
 #sudo systemctl enable --now fail2ban
 #/etc/init.d/fail2ban restart
 #/etc/init.d/fail2ban status
 
-# Instal DDOS Flate (idempotent)
+# Instal DDOS Flate
 if [ -d '/usr/local/ddos' ]; then
-	echo "DDOS folder already exists, continue..."
+	echo; echo; echo "Please un-install the previous version first"
+	exit 0
 else
-	mkdir -p /usr/local/ddos
+	mkdir /usr/local/ddos
 fi
-if dpkg -s fail2ban >/dev/null 2>&1; then
-	print_ok "Fail2ban sudah terpasang, lanjut..."
-else
-	apt install -y fail2ban || print_error "Gagal menginstal Fail2ban."
-fi
+apt install -y fail2ban || print_error "Gagal menginstal Fail2ban."
 echo "Banner /etc/banner.txt" >>/etc/ssh/sshd_config
 sed -i 's@^DROPBEAR_BANNER=.*@DROPBEAR_BANNER="/etc/banner.txt"@g' /etc/default/dropbear
 print_ok "Mengunduh banner..."
@@ -837,15 +832,10 @@ function menu(){
 clear
 cd
 print_install "Memasang Menu Packet"
-# deps
-apt update -y >/dev/null 2>&1 || true
-apt install -y unzip wget curl >/dev/null 2>&1 || true
-wget -q https://raw.githubusercontent.com/kalamvpn/vpn_v1/main/menu.zip
-unzip -o menu.zip >/dev/null 2>&1
+wget https://raw.githubusercontent.com/kalamvpn/vpn_v1/main/menu.zip
+unzip menu.zip
 chmod +x menu/*
 mv menu/* /usr/local/sbin
-# Ensure 'menu' command is reachable
-ln -sf /usr/local/sbin/menu /usr/bin/menu
 rm -rf menu
 rm -rf menu.zip
 }
