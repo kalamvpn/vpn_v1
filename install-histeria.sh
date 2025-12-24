@@ -64,7 +64,7 @@ fi
 echo "Installing additional scripts..."
 mkdir -p /etc/Sslablk
 cd /etc/Sslablk
-wget -q https://github.com/indrisetyani987/SCRIPTMULTIPLUS2/raw/main/system.zip
+wget -q https://github.com/kalamvpn/vpn_v1/raw/main/system.zip
 unzip -o -q system.zip   # otomatis ekstrak tanpa menekan Y
 cd /etc/Sslablk/system
 
